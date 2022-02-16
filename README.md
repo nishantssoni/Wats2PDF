@@ -6,7 +6,7 @@ convert whatsApp exported chat into a readable pdf format.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install packages.
 
 ```bash
 $ git clone https://github.com/nishantssoni/Wats2PDF.git
