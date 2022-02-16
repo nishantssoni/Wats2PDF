@@ -45,10 +45,6 @@ class PDF(FPDF, HTMLMixin):
         # set font
         self.set_font('helvetica', 'I', 8)
 
-
-        # page number
-        # self.cell(0, 5, f'{self.page_no()} / {{nb}}', align='R',ln=1)
-
         # links
         self.set_text_color(50,50,200)
         self.set_font('helvetica','U',7)
@@ -87,15 +83,8 @@ pdf.add_page()
 pdf.set_font('helvetica','',30)
 pdf.write_html(getHomePage(persons[0], persons[1]))
 
-
-
 # add page
 pdf.add_page()
-
-
-
-
-
 
 pdf.set_font('helvetica','',9)
 
