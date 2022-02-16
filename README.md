@@ -2,6 +2,8 @@
 
 convert whatsApp exported chat into a readable pdf format.
 
+- [x] convert without media chat
+
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
@@ -22,4 +24,8 @@ $ python main.py
 
 ![App Screenshot](https://i.ibb.co/jMdC6Wq/readmeimage.png)
 
-### Thank you
+## Contributing
+
+Contributions are always welcome!
+
+### hit me on <a href="https://twitter.com/nishantssoni">Twitter</a>
