@@ -18,11 +18,12 @@ $ pip install -r requirements.txt
 ```
 $ python main.py
 ```
-
+![App Screenshot](https://i.ibb.co/jMdC6Wq/readmeimage.png)
 
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/jMdC6Wq/readmeimage.png)
+![App Screenshot](https://i.ibb.co/JdwfqMr/readmi.png)
+![App Screenshot](https://i.ibb.co/X8JR96S/readmi1.png)
 
 ## Contributing
 
