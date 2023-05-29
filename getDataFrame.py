@@ -1,59 +1,62 @@
 import pandas as pd
+import re
+
 def getData(file_name):
     
     chat = []
 
     # data frame
     df = pd.read_csv(file_name, 
-    sep='\n\n', 
-    encoding='latin 1',
+    sep='\n\n',
     header=None,
     engine='python')
 
-    for i in range(df.shape[0]):
+    for i in range(1,df.shape[0]):
         data = {}
-        msg = list(df.iloc[i].values)[0]
+        msg = df.iloc[i].values[0]
         
-        fi = msg.find('M - ')
-        d_and_t = msg[ : ( fi + 1 ) ]
-        
-        msg = msg[fi+4:]
-        
-        fi = msg.find(':')
-        if fi == -1:
-            # if the message doesn't have and authour like security msg
-            continue
-        author = msg[:fi]
-        
-        text = msg[fi+2:]
-        
-        d_and_t = d_and_t.split(', ')
-        d_and_t.append(author)
-        d_and_t.append(text)
-        
-        #here d_and_t is list so we convert it to dictonary
-        
-        val = d_and_t[0].split('/')
         try:
-            data['month'] = int(val[0])
-            data['day'] = int(val[1])
-            data['year'] = int(val[2])
+            date_pattern = r"\d{2}/\d{2}/\d{4}"  # Regular expression pattern to match dates in DD-MM-YYYY seperated by /
+            dates = re.findall(date_pattern, msg)[0]
+
+            #here space number in ascii 32 , but here it is 8239 in ascii which called 'Narrow No-Break Space'
+            time_pattern = r"\d{1,2}:\d{2} [ap]m"  # Regular expression pattern to match time
+            times = re.findall(time_pattern, msg)[0]
+            times = times.replace(' ',' ')    #both space are different converting ascii 8239 to ascii 32
+
+
+            #message
+            matches = re.finditer(r" - .*?:", msg)
+            last_index = 0
+            for match in matches:
+                last_index = match.end()
+                break
+            message = msg[last_index:]
+            
+            
+            data['day'] = int(dates.split('/')[0])
+            data['month'] = int(dates.split('/')[1])
+            data['year'] = int(dates.split('/')[2])
+            
+            
+            #times
+            vals = times.split() #['12:45', 'am']
+
+            data['hour'] = int(vals[0].split(':')[0])
+            data['minute'] = int(vals[0].split(':')[1])
+            data['meridiem'] = vals[1]
+
+            #message
+            data['message'] = message
+            
+            #author
+            auth = re.findall(r" - .*?:", msg)[0]
+            
+            data['author'] = auth[3:-1]
+
+            chat.append(data)
         except:
             continue
-        
-        val = d_and_t[1].split()
-        data['meridiem'] = val[1]
-        
-        val = val[0].split(':')
-        
-        data['hour'] = int(val[0])
-        data['minute'] = int(val[1])
-        
-        data['author'] = d_and_t[2]
-        data['message'] = d_and_t[3]
-        
-        chat.append(data)
-
     dff = pd.DataFrame.from_dict(chat)
-    
+
     return dff, list(set(dff['author']))
