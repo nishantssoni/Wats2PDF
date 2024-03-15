@@ -30,12 +30,12 @@ def getData(file_name):
         
         try:
             # Extract the date from the message using a regular expression
-            date_pattern = r"\d{2}/\d{2}/\d{4}" 
+            date_pattern = r'\d{1,2}/\d{1,2}/\d{2}'
             dates = re.findall(date_pattern, msg)[0]
 
             # Extract the time from the message using a regular expression
             # here space number in ascii 32 , but here it is 8239 in ascii which called 'Narrow No-Break Space'
-            time_pattern = r"\d{1,2}:\d{2} [ap]m"
+            time_pattern = r'\d{1,2}:\d{2}\s*[APap][Mm]'
             times = re.findall(time_pattern, msg)[0]
             times = times.replace(' ',' ')    # Replace the narrow no-break space with a regular space
 
@@ -62,8 +62,7 @@ def getData(file_name):
 
             # Store the message and author in the data dictionary
             data['message'] = message
-            auth = re.findall(r" - .*?:", msg)[0]
-            data['author'] = auth[3:-1]
+            data['author'] = re.findall(r'(?<=- )[^:]+', msg)[0]
             
             # Append the data dictionary to the chat list
             chat.append(data)
